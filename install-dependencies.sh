@@ -242,17 +242,12 @@ case "$ID" in
     fedora)
         dnf install -y "${fedora_packages[@]}"
     ;;
-    rhel|centos|rocky)
+    rhel|centos|rocky|tencentos)
         if [ "$VERSION_ID" = "7" ]; then
             # yum install -y epel-release centos-release-scl scl-utils
             yum install -y "${centos7_packages[@]}"
-<<<<<<< Updated upstream
-        elif [ "${VERSION_ID%%.*}" = "8" ]; then
-            dnf install -y epel-release
-=======
         elif [ "${VERSION_ID%%.*}" = "8" ] || [ "$ID" = "tencentos" -a "${VERSION_ID%%.*}" = "4" ]; then
             # dnf install -y epel-release
->>>>>>> Stashed changes
             dnf install -y "${centos8_packages[@]}"
         elif [ "${VERSION_ID%%.*}" = "9" ]; then
             # dnf install -y epel-release
