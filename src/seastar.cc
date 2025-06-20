@@ -30,19 +30,33 @@
 // level of the module structure. as each partition has
 // - its own source file
 // - an entry in CMakeLists.txt
-// - one or more cross partition import / export clause when it is used / exposed
+// - one or more cross partition(adj 跨区域的) import / export clause when it is used / exposed
 //
-// a simpler alternative is to put all headers into a the same purview of
+// a simpler alternative is to put all headers into a the same purview(作用域) of
 // the "seastar" module. but this slows down the build speed of Seastar itself,
 // as each time when we modify any of the header file, the whole module is
 // recompiled. but this should fine at this moment, as the majority Seastar
 // developers are not supposed to build Seastar as a C++ module, which is, in
 // general, built for a single time to be consumed by Seastar applications.
+/*
+我们可以将子系统拆分为多个模块分区，以使模块结构更加清晰，但 Seastar 子系统之间的依赖关系形成了一个循环图，如果我们在头文件所在的子目录边界处拆分源文件，就会出现这种情况。例如：
+core/future => util/backtrace => core/sstring。
+
+一种解决这种循环依赖问题的方法是，将某些子系统进一步拆分为更小的部分，但这样会增加模块结构的复杂度。因为每个分区都需要：
+
+自己的源文件
+在 CMakeLists.txt 中有一个入口
+在被使用或暴露时，有一个或多个跨分区的 import/export 语句
+一个更简单的替代方案是，把所有头文件都放到同一个 “seastar” 模块的作用域下。
+但这样会降低 Seastar 本身的构建速度，因为每次修改任何头文件，整个模块都会被重新编译。
+不过目前这样做应该没问题，因为大多数 Seastar 开发者并不需要将 Seastar 作为 C++ 模块来构建，
+通常只需构建一次，供 Seastar 应用程序使用。
+*/
 
 module;
 
 // put all headers not provided by this module into the global module fragment
-// to prevent attachment to the module
+// to prevent attachment to the module  防止全局模块附加到当前模块
 
 #include <any>
 #include <array>
