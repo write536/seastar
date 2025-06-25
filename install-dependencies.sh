@@ -136,11 +136,11 @@ centos7_packages=(
 
 centos8_packages=(
     "${redhat_packages[@]}"
-    gcc-toolset-11-gcc
-    gcc-toolset-11-gcc-c++
-    gcc-toolset-11-libasan-devel
-    gcc-toolset-11-libatomic-devel
-    gcc-toolset-11-libubsan-devel
+    # gcc-toolset-11-gcc
+    # gcc-toolset-11-gcc-c++
+    # gcc-toolset-11-libasan-devel
+    # gcc-toolset-11-libatomic-devel
+    # gcc-toolset-11-libubsan-devel
     ninja-build
     ragel
 )
@@ -244,13 +244,18 @@ case "$ID" in
     ;;
     rhel|centos|rocky)
         if [ "$VERSION_ID" = "7" ]; then
-            yum install -y epel-release centos-release-scl scl-utils
+            # yum install -y epel-release centos-release-scl scl-utils
             yum install -y "${centos7_packages[@]}"
+<<<<<<< Updated upstream
         elif [ "${VERSION_ID%%.*}" = "8" ]; then
             dnf install -y epel-release
+=======
+        elif [ "${VERSION_ID%%.*}" = "8" ] || [ "$ID" = "tencentos" -a "${VERSION_ID%%.*}" = "4" ]; then
+            # dnf install -y epel-release
+>>>>>>> Stashed changes
             dnf install -y "${centos8_packages[@]}"
         elif [ "${VERSION_ID%%.*}" = "9" ]; then
-            dnf install -y epel-release
+            # dnf install -y epel-release
             dnf install -y "${centos9_packages[@]}"
         fi
     ;;
